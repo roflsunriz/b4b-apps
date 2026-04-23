@@ -1,0 +1,3 @@
+clipman
+keyboard
+pyautogui

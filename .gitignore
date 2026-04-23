@@ -1,0 +1,18 @@
+# Python cache
+**/__pycache__/
+**/*.py[cod]
+
+# Build outputs
+**/build/
+**/dist/
+**/*.egg-info/
+
+# Project-specific generated files
+**/misc/
+
+# Local environments and editor noise
+.venv/
+venv/
+env/
+.idea/
+.vscode/
