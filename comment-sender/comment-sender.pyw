@@ -274,6 +274,18 @@ class CommentApp:
         self.stop_button.pack(pady=10)
         self.stop_button.config(state=tk.DISABLED)  # 初期状態では無効
 
+        # ホットキー表示
+        self.hotkey_frame = tk.LabelFrame(self.settings_frame, text="ホットキー", padx=8, pady=6)
+        self.hotkey_frame.pack(fill=tk.X, pady=(5, 10))
+        hotkey_lines = [
+            "j+8 : 送信",
+            "j+9 : 前のコメント",
+            "j+0 : 次のコメント",
+            "j+p : UI操作を無効化 切替",
+        ]
+        for line in hotkey_lines:
+            tk.Label(self.hotkey_frame, text=line, anchor=tk.W, justify=tk.LEFT).pack(fill=tk.X)
+
         # グローバルホットキーの設定
         keyboard.add_hotkey('j+8', self.send_with_mouse)  # 送信
         keyboard.add_hotkey('j+9', self.prev_comment)     # 前のコメント

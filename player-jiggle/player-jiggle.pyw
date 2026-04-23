@@ -31,7 +31,7 @@ class PlayerJiggle:
     def __init__(self, root):
         self.root = root
         self.root.title("Player Jiggle")
-        self.root.geometry("300x200")
+        self.root.geometry("320x240")
         self.root.resizable(False, False)
         
         self.is_running = False
@@ -70,10 +70,11 @@ class PlayerJiggle:
         self.status_var = tk.StringVar(value="待機中")
         ttk.Label(main_frame, textvariable=self.status_var, font=("", 12)).pack(pady=5)
         
-        # ショートカットの説明
-        shortcut_frame = ttk.Frame(main_frame)
-        shortcut_frame.pack(pady=5)
-        ttk.Label(shortcut_frame, text="ショートカット: l+1(開始) / l+2(停止)", font=("", 9)).pack()
+        # ホットキーの常設表示
+        hotkey_frame = ttk.LabelFrame(main_frame, text="ホットキー", padding="8")
+        hotkey_frame.pack(fill=tk.X, pady=(8, 0))
+        ttk.Label(hotkey_frame, text="l+1 : 開始").pack(anchor=tk.W)
+        ttk.Label(hotkey_frame, text="l+2 : 停止").pack(anchor=tk.W)
         
     def jiggle_loop(self):
         """キー操作を定期的に実行するループ"""
