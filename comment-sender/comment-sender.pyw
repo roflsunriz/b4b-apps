@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Back 4 Blood コメント送信ツール v1.1.0
+定型コメントを素早く送信する GUI ツール
+"""
+
 import sys
 import subprocess
 import json
@@ -73,8 +80,8 @@ except ImportError:
 # JSONファイルからコメントを読み込む
 def load_comments():
     # 設定ファイルのパス
-    config_dir = os.path.join(os.getcwd(), 'misc', 'config')
-    config_file = os.path.join(config_dir, 'comment_sender_back4blood.json')
+    config_dir = os.path.join(os.path.expanduser('~'), 'mini-tools', 'comment-sender')
+    config_file = os.path.join(config_dir, 'settings.json')
     
     # デフォルトの設定
     default_settings = {
@@ -358,8 +365,8 @@ class CommentApp:
     def save_comments_to_file(self, comments, interval, repeat):
         try:
             # 設定ファイルのパス
-            config_dir = os.path.join(os.getcwd(), 'misc', 'config')
-            config_file = os.path.join(config_dir, 'comment_sender_back4blood.json')
+            config_dir = os.path.join(os.path.expanduser('~'), 'mini-tools', 'comment-sender')
+            config_file = os.path.join(config_dir, 'settings.json')
             
             # ディレクトリがなければ作成
             os.makedirs(config_dir, exist_ok=True)

@@ -1,3 +1,10 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+Back 4 Blood Player Jiggle Tool v1.1.0
+キー操作シミュレーションでゲーム内アクティブ状態を維持
+"""
+
 import tkinter as tk
 from tkinter import ttk
 import threading
@@ -5,6 +12,33 @@ import time
 import importlib
 import subprocess
 import sys
+import json
+import os
+
+# 設定ファイルのパス
+SETTINGS_DIR = os.path.join(os.path.expanduser('~'), 'mini-tools', 'player-jiggle')
+SETTINGS_FILE = os.path.join(SETTINGS_DIR, 'settings.json')
+
+def load_settings():
+    """設定ファイルから設定を読み込む"""
+    default_settings = {"interval": 5.0}
+    try:
+        os.makedirs(SETTINGS_DIR, exist_ok=True)
+        with open(SETTINGS_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            return {**default_settings, **data}
+    except (FileNotFoundError, json.JSONDecodeError):
+        save_settings(default_settings)
+        return default_settings
+
+def save_settings(settings):
+    """設定ファイルに設定を保存する"""
+    try:
+        os.makedirs(SETTINGS_DIR, exist_ok=True)
+        with open(SETTINGS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(settings, f, indent=2, ensure_ascii=False)
+    except Exception as e:
+        print(f"設定の保存に失敗しました: {e}")
 
 # 必要なパッケージの自動インストール
 def install_package(package):
@@ -37,6 +71,9 @@ class PlayerJiggle:
         self.is_running = False
         self.thread = None
         
+        # 設定を読み込む
+        self.settings = load_settings()
+        
         # グローバルホットキーの設定
         keyboard.add_hotkey('l+1', self.start)
         keyboard.add_hotkey('l+2', self.stop)
@@ -50,7 +87,7 @@ class PlayerJiggle:
         interval_frame.pack(pady=10)
         
         ttk.Label(interval_frame, text="押下間隔（秒）:").pack(side=tk.LEFT)
-        self.interval_var = tk.StringVar(value="5")
+        self.interval_var = tk.StringVar(value=str(self.settings.get("interval", 5.0)))
         self.interval_entry = ttk.Entry(interval_frame, width=10, textvariable=self.interval_var)
         self.interval_entry.pack(side=tk.LEFT, padx=5)
         
@@ -155,6 +192,13 @@ class PlayerJiggle:
     def quit(self):
         """プログラムを終了"""
         self.stop()
+        # 現在のinterval値を設定ファイルに保存
+        try:
+            interval = float(self.interval_var.get())
+        except ValueError:
+            interval = 5.0
+        self.settings["interval"] = interval
+        save_settings(self.settings)
         # ホットキーを解除
         keyboard.remove_hotkey('l+1')
         keyboard.remove_hotkey('l+2')
