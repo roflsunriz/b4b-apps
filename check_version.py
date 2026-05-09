@@ -7,7 +7,7 @@
 import os
 import sys
 
-def get_comment_sender_version():
+def get_comment_sender_version() -> str:
     """comment-senderのバージョンを取得"""
     with open("comment-sender/comment-sender.pyw", "r", encoding="utf-8") as f:
         for line in f:
@@ -15,7 +15,7 @@ def get_comment_sender_version():
                 return line.strip()
     return "バージョン情報なし"
 
-def get_player_jiggle_version():
+def get_player_jiggle_version() -> str:
     """player-jiggleのバージョンを取得"""
     with open("player-jiggle/player-jiggle.pyw", "r", encoding="utf-8") as f:
         for line in f:
@@ -23,7 +23,7 @@ def get_player_jiggle_version():
                 return line.strip()
     return "バージョン情報なし"
 
-def main():
+def main() -> int:
     """メイン関数"""
     print("b4b-apps バージョンチェック")
     print("=" * 40)
